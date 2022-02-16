@@ -17,6 +17,7 @@ import java.util.Optional;
 public class UserService {
     private final UserEntityService userEntityService;
     private final ValidationService validationService;
+    private final CreditScoreService creditScoreService;
 
     public List<UserResponseDto> findAll() {
 
@@ -26,12 +27,23 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto save(UserRequestDto userRequestDto) {
-
+    public UserResponseDto create(UserRequestDto userRequestDto) {
         User user = UserMapper.INSTANCE.convertUserRequestDtoToUser(userRequestDto);
-
+        Long creditScore = creditScoreService.calculateCreditScore(user.getMonthlyIncome(), user.getNationalIdNumber());
+        user.setCreditScore(creditScore);
         User savedUser = userEntityService.save(user);
         return UserMapper.INSTANCE.convertUserResponseDtoToUser(savedUser);
+    }
+
+    @Transactional
+    public UserResponseDto update(UserRequestDto userRequestDto, String nationalIdNumber) {
+        User userRequestEntity = UserMapper.INSTANCE.convertUserRequestDtoToUser(userRequestDto);
+        User user = findUserByNationalIdNumber(nationalIdNumber);
+
+        fillUserProperties(userRequestEntity, user);
+
+        User updatedUser = userEntityService.save(user);
+        return UserMapper.INSTANCE.convertUserResponseDtoToUser(updatedUser);
     }
 
     public UserResponseDto findById(Long id) {
@@ -64,5 +76,11 @@ public class UserService {
     private User findUserByNationalIdNumber(String nationalIdNumber) {
         Optional<User> optionalUser = userEntityService.findByNationalIdNumber(nationalIdNumber);
         return validationService.validateUser(optionalUser);
+    }
+
+    private void fillUserProperties(User userRequestEntity, User user) {
+        user.setMonthlyIncome(userRequestEntity.getMonthlyIncome());
+        user.setName(userRequestEntity.getName());
+        user.setPhone(userRequestEntity.getPhone());
     }
 }
