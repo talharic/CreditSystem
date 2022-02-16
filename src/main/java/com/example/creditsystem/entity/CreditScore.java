@@ -18,7 +18,10 @@ public class CreditScore implements BaseEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    private String nationalIdNumber;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     private Long score;
+
 }
