@@ -21,6 +21,7 @@ public class UserService {
     public List<UserResponseDto> findAll() {
 
         List<User> userList = userEntityService.findAll();
+
         return UserMapper.INSTANCE.convertAllUserToUserResponseDto(userList);
     }
 

@@ -4,7 +4,8 @@ import com.example.creditsystem.enums.CreditApplicationResult;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class CreditApplicationResponseDto implements Serializable {
 
     @NotBlank(message = "National Id Number is mandatory")
-    @Size(min = 11, max = 11, message = "National Id Number should be 11 characters.")
+    @Pattern(regexp = "[\\d]{11}", message = "National Id Number should contain 11 digits!")
     private final String userNationalIdNumber;
 
     @NotBlank(message = "Name is mandatory")
@@ -24,7 +25,7 @@ public class CreditApplicationResponseDto implements Serializable {
     @NotBlank(message = "Phone is mandatory")
     private final String userPhone;
 
-    @NotBlank(message = "Monthly Income is mandatory")
+    @NotNull(message = "Monthly Income is mandatory")
     private final Double monthlyIncome;
 
     private final Double creditLimitAmount;
