@@ -1,27 +1,34 @@
 package com.example.creditsystem.dto;
 
+import com.example.creditsystem.enums.CreditApplicationResult;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
-public class UserRequestDto implements Serializable {
+public class CreditApplicationResponseDto implements Serializable {
 
     @NotBlank(message = "National Id Number is mandatory")
     @Size(min = 11, max = 11, message = "National Id Number should be 11 characters.")
-    private final String nationalIdNumber;
+    private final String userNationalIdNumber;
 
     @NotBlank(message = "Monthly Income is mandatory")
-    private final Double monthlyIncome;
+    private final Double userMonthlyIncome;
 
     @NotBlank(message = "Name is mandatory")
-    private final String name;
+    private final String userName;
 
     @NotBlank(message = "Surname is mandatory")
-    private final String surname;
+    private final String userSurname;
 
     @NotBlank(message = "Phone is mandatory")
-    private final String phone;
+    private final String userPhone;
+
+    private final Double creditLimitAmount;
+
+    private final LocalDateTime applicationDate;
+    private final CreditApplicationResult creditApplicationResult;
 }

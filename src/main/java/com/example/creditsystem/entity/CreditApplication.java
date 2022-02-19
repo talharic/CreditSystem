@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "CREDIT_APPLICATIONS")
 @ToString
 @RequiredArgsConstructor
-public class CreditApplication implements BaseEntity{
+public class CreditApplication implements BaseEntity {
     @SequenceGenerator(name = "generator", sequenceName = "CREDIT_APPLICATION_ID_SEQ", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "generator")
@@ -21,10 +21,12 @@ public class CreditApplication implements BaseEntity{
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="nationalIdNumber", foreignKey = @ForeignKey(name = "FK_NATIONAL_ID_NUMBER"))
+    @JoinColumn(name = "nationalIdNumber", foreignKey = @ForeignKey(name = "FK_NATIONAL_ID_NUMBER"))
     private User user;
 
     private LocalDateTime applicationDate;
+
+    private Double creditLimitAmount;
 
     private CreditApplicationResult creditApplicationResult;
 

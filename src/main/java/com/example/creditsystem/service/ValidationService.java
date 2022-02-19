@@ -1,5 +1,6 @@
 package com.example.creditsystem.service;
 
+import com.example.creditsystem.entity.CreditApplication;
 import com.example.creditsystem.entity.User;
 import com.example.creditsystem.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,12 @@ public class ValidationService {
             return user.get();
         } else
             throw new UserNotFoundException("User not found!");
+    }
+
+    public CreditApplication validateCreditApplication(Optional<CreditApplication> creditApplication) {
+        if (creditApplication.isPresent()) {
+            return creditApplication.get();
+        } else
+            throw new UserNotFoundException("Credit Application not found!");
     }
 }

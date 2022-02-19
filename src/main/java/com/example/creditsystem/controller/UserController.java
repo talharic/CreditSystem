@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{nationalIdNumber}")
-    public ResponseEntity<Object> create(@Valid @RequestBody UserRequestDto userRequestDto, @PathVariable String nationalIdNumber) {
+    public ResponseEntity<Object> update(@Valid @RequestBody UserRequestDto userRequestDto, @PathVariable String nationalIdNumber) {
         return ResponseEntity.ok(userService.update(userRequestDto, nationalIdNumber));
     }
 
