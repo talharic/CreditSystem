@@ -1,6 +1,6 @@
 package com.example.creditsystem.rule;
 
-import com.example.creditsystem.dto.CreditCalculationDto;
+import com.example.creditsystem.entity.CreditApplication;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class CreditAmountCalculator {
         this.calculationRules.add(new RuleThree());
     }
 
-    public double getCreditAmount(CreditCalculationDto creditCalculationDto) {
+    public double getCreditLimitAmount(CreditApplication creditApplication) {
         double creditAmount = 0.0;
         for (CreditCalculationRule calculationRule : calculationRules) {
-            creditAmount += calculationRule.calculate(creditCalculationDto);
+            creditAmount += calculationRule.calculate(creditApplication);
         }
         return creditAmount;
     }

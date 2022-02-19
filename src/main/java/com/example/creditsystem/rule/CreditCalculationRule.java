@@ -1,7 +1,8 @@
 package com.example.creditsystem.rule;
 
-import com.example.creditsystem.dto.CreditCalculationDto;
+import com.example.creditsystem.entity.CreditApplication;
 
 public interface CreditCalculationRule {
-    double calculate(CreditCalculationDto creditCalculationDto);
+    double calculate(CreditApplication creditApplication);
+
 }

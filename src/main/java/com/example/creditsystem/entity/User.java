@@ -27,9 +27,6 @@ public class User implements BaseEntity {
     @Column(unique = true, nullable = false, length = 11)
     private String nationalIdNumber;
 
-    @NotBlank(message = "Monthly Income is mandatory")
-    private Double monthlyIncome;
-
     @NotBlank(message = "Name is mandatory")
     private String name;
 
@@ -38,8 +35,6 @@ public class User implements BaseEntity {
 
     @NotBlank(message = "Phone is mandatory")
     private String phone;
-
-    private Long creditScore;
 
     @OneToMany(mappedBy = "user")
     private List<CreditApplication> creditApplications;

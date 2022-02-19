@@ -15,9 +15,6 @@ public class CreditApplicationResponseDto implements Serializable {
     @Size(min = 11, max = 11, message = "National Id Number should be 11 characters.")
     private final String userNationalIdNumber;
 
-    @NotBlank(message = "Monthly Income is mandatory")
-    private final Double userMonthlyIncome;
-
     @NotBlank(message = "Name is mandatory")
     private final String userName;
 
@@ -27,8 +24,10 @@ public class CreditApplicationResponseDto implements Serializable {
     @NotBlank(message = "Phone is mandatory")
     private final String userPhone;
 
-    private final Double creditLimitAmount;
+    @NotBlank(message = "Monthly Income is mandatory")
+    private final Double monthlyIncome;
 
+    private final Double creditLimitAmount;
     private final LocalDateTime applicationDate;
     private final CreditApplicationResult creditApplicationResult;
 }
