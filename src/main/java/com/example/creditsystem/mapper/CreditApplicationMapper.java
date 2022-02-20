@@ -2,6 +2,7 @@ package com.example.creditsystem.mapper;
 
 import com.example.creditsystem.dto.CreditApplicationRequestDto;
 import com.example.creditsystem.dto.CreditApplicationResponseDto;
+import com.example.creditsystem.dto.CreditApplicationResultDto;
 import com.example.creditsystem.entity.CreditApplication;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -50,4 +51,13 @@ public interface CreditApplicationMapper {
     @Mapping(source = "userSurname", target = "user.surname")
     @Mapping(source = "userPhone", target = "user.phone")
     List<CreditApplicationResponseDto> convertAllCreditApplicationToCreditApplicationResponseDto(List<CreditApplication> CreditApplication);
+
+    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
+    CreditApplicationResultDto convertCreditApplicationToCreditApplicationResultDto(CreditApplication creditApplication);
+
+    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
+    List<CreditApplicationResultDto> convertAllCreditApplicationToCreditApplicationResultDto(List<CreditApplication> creditApplicationList);
+
+    @Mapping(source = "userNationalIdNumber", target = "user.nationalIdNumber")
+    CreditApplication convertCreditApplicationResultDtoToCreditApplication(CreditApplicationResultDto creditApplicationResultDto);
 }

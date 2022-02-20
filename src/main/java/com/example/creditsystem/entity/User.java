@@ -14,9 +14,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "USERS")
 @Data
-@ToString
 @RequiredArgsConstructor
 public class User implements BaseEntity {
+
     @SequenceGenerator(name = "generator", sequenceName = "USER_ID_SEQ", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "generator")

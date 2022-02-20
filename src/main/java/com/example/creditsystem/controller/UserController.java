@@ -17,19 +17,9 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable Long id) {
-
-        UserResponseDto userDto = userService.findById(id);
-
-        return ResponseEntity.ok(userDto);
-    }
-
-    @GetMapping("/id-number/{nationalIdNumber}")
+    @GetMapping("/{nationalIdNumber}")
     public ResponseEntity<Object> getByNationalIdNumber(@PathVariable String nationalIdNumber) {
-
         UserResponseDto userResponseDto = userService.findByNationalIdNumber(nationalIdNumber);
-
         return ResponseEntity.ok(userResponseDto);
     }
 
@@ -49,9 +39,9 @@ public class UserController {
         return ResponseEntity.ok(userService.update(userRequestDto, nationalIdNumber));
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        userService.deleteById(id);
+    @DeleteMapping("/{nationalIdNumber}")
+    public void deleteByNationalIdNumber(@PathVariable String nationalIdNumber) {
+        userService.deleteByNationalIdNumber(nationalIdNumber);
     }
 
 }

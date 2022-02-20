@@ -1,7 +1,7 @@
 package com.example.creditsystem.service;
 
 import com.example.creditsystem.dto.CreditApplicationRequestDto;
-import com.example.creditsystem.dto.CreditApplicationResponseDto;
+import com.example.creditsystem.dto.CreditApplicationResultDto;
 import com.example.creditsystem.entity.CreditApplication;
 import com.example.creditsystem.entity.User;
 import com.example.creditsystem.enums.CreditApplicationResult;
@@ -9,6 +9,7 @@ import com.example.creditsystem.mapper.CreditApplicationMapper;
 import com.example.creditsystem.rule.CreditAmountCalculator;
 import com.example.creditsystem.service.entityservice.CreditApplicationEntityService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreditApplicationService {
@@ -26,47 +28,30 @@ public class CreditApplicationService {
     private final CreditScoreService creditScoreService;
 
     @Transactional
-    public CreditApplicationResponseDto create(CreditApplicationRequestDto creditApplicationRequestDto) {
+    public CreditApplicationResultDto create(CreditApplicationRequestDto creditApplicationRequestDto) {
         CreditApplication creditApplication = CreditApplicationMapper.INSTANCE.convertCreditApplicationRequestDtoToCreditApplication(creditApplicationRequestDto);
-        User user = creditApplication.getUser();
-        user = userService.findUserByNationalIdNumber(user.getNationalIdNumber());
+        User userFromDto = creditApplication.getUser();
+        User user = userService.findUserByNationalIdNumber(userFromDto.getNationalIdNumber());
+        fillCreditApplicationEntity(creditApplication, user);
+        CreditApplication savedApplication = creditApplicationEntityService.save(creditApplication);
+        return CreditApplicationMapper.INSTANCE.convertCreditApplicationToCreditApplicationResultDto(savedApplication);
+    }
+
+    private void fillCreditApplicationEntity(CreditApplication creditApplication, User user) {
         Long creditScore = creditScoreService.calculateCreditScore(creditApplication.getMonthlyIncome(), user.getNationalIdNumber());
         creditApplication.setUser(user);
         creditApplication.setApplicationDate(LocalDateTime.now());
         creditApplication.setCreditScore(creditScore);
-        calculateCreditLimit(creditApplication);
-        CreditApplication savedApplication = creditApplicationEntityService.save(creditApplication);
-        return CreditApplicationMapper.INSTANCE.convertCreditApplicationResponseDtoToCreditApplication(savedApplication);
-    }
-
-    private void calculateCreditLimit(CreditApplication creditApplication) {
         double creditAmount = creditAmountCalculator.getCreditLimitAmount(creditApplication);
         CreditApplicationResult creditApplicationResult = creditAmount > 0 ? CreditApplicationResult.APPROVED : CreditApplicationResult.REJECTED;
         creditApplication.setCreditApplicationResult(creditApplicationResult);
         creditApplication.setCreditLimitAmount(creditAmount);
     }
 
-    public CreditApplicationResponseDto findById(Long id) {
-        CreditApplication creditApplicationById = findCreditApplicationById(id);
-        return CreditApplicationMapper.INSTANCE.convertCreditApplicationResponseDtoToCreditApplication(creditApplicationById);
+
+    public List<CreditApplicationResultDto> findCreditApplicationByNationalIdNumber(String nationalIdNumber) {
+        Optional<List<CreditApplication>> creditApplicationByNationalIdNumber = creditApplicationEntityService.findCreditApplicationByNationalIdNumber(nationalIdNumber);
+        List<CreditApplication> creditApplicationList = validationService.validateCreditApplicationList(creditApplicationByNationalIdNumber);
+        return CreditApplicationMapper.INSTANCE.convertAllCreditApplicationToCreditApplicationResultDto(creditApplicationList);
     }
-
-    @Transactional
-    public void deleteById(Long id) {
-        CreditApplication creditApplication = findCreditApplicationById(id);
-        creditApplicationEntityService.delete(creditApplication);
-    }
-
-    private CreditApplication findCreditApplicationById(Long id) {
-        Optional<CreditApplication> creditApplicationById = creditApplicationEntityService.findById(id);
-        return validationService.validateCreditApplication(creditApplicationById);
-    }
-
-    public List<CreditApplicationResponseDto> findAll() {
-
-        List<CreditApplication> creditApplicationList = creditApplicationEntityService.findAll();
-        return CreditApplicationMapper.INSTANCE.convertAllCreditApplicationToCreditApplicationResponseDto(creditApplicationList);
-    }
-
-
 }
