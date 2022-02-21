@@ -11,6 +11,8 @@ import ApplyCreditPage from './components/credit/ApplyCreditPage';
 import ViewCreditsPage from './components/credit/ViewCreditsPage';
 
 
+
+
 class App extends React.Component {
 
   render() {
@@ -25,7 +27,6 @@ class App extends React.Component {
           <Route path="/delete-user" element={<DeleteUserPage></DeleteUserPage>}></Route>
           <Route path="/apply-credit" element={<ApplyCreditPage></ApplyCreditPage>}></Route>
           <Route path="/show-applications" element={<ViewCreditsPage></ViewCreditsPage>}></Route>
-
         </Routes>
       </div>
     );
