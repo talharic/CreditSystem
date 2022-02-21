@@ -1,0 +1,35 @@
+version: '1.0'
+services:
+  app:
+    container_name: docker-CreditSystem
+    image: docker-CreditSystem
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresqldb
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  postgresqldb:
+    image: postgres
+    ports:
+      - "5431:5431"
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=CreditSystem
+  frontend:
+    container_name: docker-credit-system-frontend
+    build: ../credit-system-frontend
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
