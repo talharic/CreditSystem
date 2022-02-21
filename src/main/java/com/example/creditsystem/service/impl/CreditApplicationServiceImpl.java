@@ -3,7 +3,6 @@ package com.example.creditsystem.service.impl;
 import com.example.creditsystem.dto.CreditApplicationRequestDto;
 import com.example.creditsystem.dto.CreditApplicationResultDto;
 import com.example.creditsystem.entity.CreditApplication;
-import com.example.creditsystem.entity.User;
 import com.example.creditsystem.enums.CreditApplicationResult;
 import com.example.creditsystem.mapper.CreditApplicationMapper;
 import com.example.creditsystem.rule.CreditAmountCalculator;
@@ -19,9 +18,9 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CreditApplicationServiceImpl implements CreditApplicationService {
     private final UserServiceImpl userService;
     private final CreditApplicationEntityService creditApplicationEntityService;
@@ -47,6 +46,8 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
         CreditApplicationResult creditApplicationResult = creditAmount > 0 ? CreditApplicationResult.APPROVED : CreditApplicationResult.REJECTED;
         creditApplication.setCreditApplicationResult(creditApplicationResult);
         creditApplication.setCreditLimitAmount(creditAmount);
+        log.info("Credit Application Result: " + creditApplicationResult);
+        log.info("Credit Limit Amount: " + creditAmount);
     }
 
     @Override

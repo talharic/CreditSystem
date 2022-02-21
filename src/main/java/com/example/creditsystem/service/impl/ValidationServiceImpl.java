@@ -5,12 +5,10 @@ import com.example.creditsystem.entity.User;
 import com.example.creditsystem.exception.CreditApplicationNotFoundException;
 import com.example.creditsystem.exception.UserNotFoundException;
 import com.example.creditsystem.service.ValidationService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class ValidationServiceImpl implements ValidationService {
 

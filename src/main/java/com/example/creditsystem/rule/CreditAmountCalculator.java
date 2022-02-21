@@ -1,12 +1,14 @@
 package com.example.creditsystem.rule;
 
 import com.example.creditsystem.entity.CreditApplication;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class CreditAmountCalculator {
     List<CreditCalculationRule> calculationRules = new ArrayList<>();
 
@@ -23,6 +25,7 @@ public class CreditAmountCalculator {
         for (CreditCalculationRule calculationRule : calculationRules) {
             creditAmount += calculationRule.calculate(creditScore, monthlyIncome);
         }
+        log.info("creditAmount: " + creditAmount);
         return creditAmount;
     }
 }
