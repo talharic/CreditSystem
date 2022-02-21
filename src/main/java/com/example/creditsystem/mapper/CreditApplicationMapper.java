@@ -16,22 +16,28 @@ public interface CreditApplicationMapper {
 
     CreditApplicationMapper INSTANCE = Mappers.getMapper(CreditApplicationMapper.class);
 
-    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
+    @Mapping(target = "nationalIdNumber", source = "user.nationalIdNumber")
+    @Mapping(target = "name", source = "user.name")
+    @Mapping(target = "surname", source = "user.surname")
+    @Mapping(target = "phone", source = "user.phone")
     CreditApplicationRequestDto convertCreditApplicationRequestDtoToCreditApplication(CreditApplication creditApplication);
 
-    @Mapping(source = "userNationalIdNumber", target = "user.nationalIdNumber")
+    @Mapping(source = "nationalIdNumber", target = "user.nationalIdNumber")
+    @Mapping(source = "name", target = "user.name")
+    @Mapping(source = "surname", target = "user.surname")
+    @Mapping(source = "phone", target = "user.phone")
     CreditApplication convertCreditApplicationRequestDtoToCreditApplication(CreditApplicationRequestDto CreditApplicationRequestDto);
 
-    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
-    @Mapping(target = "userName", source = "user.name")
-    @Mapping(target = "userSurname", source = "user.surname")
-    @Mapping(target = "userPhone", source = "user.phone")
+    @Mapping(target = "nationalIdNumber", source = "user.nationalIdNumber")
+    @Mapping(target = "name", source = "user.name")
+    @Mapping(target = "surname", source = "user.surname")
+    @Mapping(target = "phone", source = "user.phone")
     CreditApplicationResponseDto convertCreditApplicationResponseDtoToCreditApplication(CreditApplication creditApplication);
 
-    @Mapping(source = "userNationalIdNumber", target = "user.nationalIdNumber")
-    @Mapping(source = "userName", target = "user.name")
-    @Mapping(source = "userSurname", target = "user.surname")
-    @Mapping(source = "userPhone", target = "user.phone")
+    @Mapping(source = "nationalIdNumber", target = "user.nationalIdNumber")
+    @Mapping(source = "name", target = "user.name")
+    @Mapping(source = "surname", target = "user.surname")
+    @Mapping(source = "phone", target = "user.phone")
     CreditApplication convertCreditApplicationResponseDtoToCreditApplication(CreditApplicationResponseDto CreditApplicationResponseDto);
 
     @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
@@ -40,24 +46,24 @@ public interface CreditApplicationMapper {
     @Mapping(source = "userNationalIdNumber", target = "user.nationalIdNumber")
     List<CreditApplication> convertAllCreditApplicationToCreditApplicationRequestDto(List<CreditApplicationRequestDto> creditApplicationRequestDtoList);
 
-    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
-    @Mapping(target = "userName", source = "user.name")
-    @Mapping(target = "userSurname", source = "user.surname")
-    @Mapping(target = "userPhone", source = "user.phone")
+    @Mapping(target = "nationalIdNumber", source = "user.nationalIdNumber")
+    @Mapping(target = "name", source = "user.name")
+    @Mapping(target = "surname", source = "user.surname")
+    @Mapping(target = "phone", source = "user.phone")
     List<CreditApplication> convertAllCreditApplicationResponseDtoToCreditApplication(List<CreditApplicationResponseDto> creditApplicationList);
 
-    @Mapping(source = "userNationalIdNumber", target = "user.nationalIdNumber")
-    @Mapping(source = "userName", target = "user.name")
-    @Mapping(source = "userSurname", target = "user.surname")
-    @Mapping(source = "userPhone", target = "user.phone")
+    @Mapping(source = "nationalIdNumber", target = "user.nationalIdNumber")
+    @Mapping(source = "name", target = "user.name")
+    @Mapping(source = "surname", target = "user.surname")
+    @Mapping(source = "phone", target = "user.phone")
     List<CreditApplicationResponseDto> convertAllCreditApplicationToCreditApplicationResponseDto(List<CreditApplication> CreditApplication);
 
-    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
+    @Mapping(target = "nationalIdNumber", source = "user.nationalIdNumber")
     CreditApplicationResultDto convertCreditApplicationToCreditApplicationResultDto(CreditApplication creditApplication);
 
-    @Mapping(target = "userNationalIdNumber", source = "user.nationalIdNumber")
+    @Mapping(target = "nationalIdNumber", source = "user.nationalIdNumber")
     List<CreditApplicationResultDto> convertAllCreditApplicationToCreditApplicationResultDto(List<CreditApplication> creditApplicationList);
 
-    @Mapping(source = "userNationalIdNumber", target = "user.nationalIdNumber")
+    @Mapping(source = "nationalIdNumber", target = "user.nationalIdNumber")
     CreditApplication convertCreditApplicationResultDtoToCreditApplication(CreditApplicationResultDto creditApplicationResultDto);
 }

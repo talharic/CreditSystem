@@ -28,10 +28,10 @@ public class CreditApplicationService {
     private final CreditScoreService creditScoreService;
 
     @Transactional
-    public CreditApplicationResultDto create(CreditApplicationRequestDto creditApplicationRequestDto) {
-        CreditApplication creditApplication = CreditApplicationMapper.INSTANCE.convertCreditApplicationRequestDtoToCreditApplication(creditApplicationRequestDto);
-        User userFromDto = creditApplication.getUser();
-        User user = userService.findUserByNationalIdNumber(userFromDto.getNationalIdNumber());
+    public CreditApplicationResultDto saveCreditApplication(CreditApplicationRequestDto creditApplicationRequestDto) {
+        CreditApplication creditApplication = CreditApplicationMapper
+                .INSTANCE.convertCreditApplicationRequestDtoToCreditApplication(creditApplicationRequestDto);
+        User user = userService.saveUserToEntity(creditApplication.getUser());
         fillCreditApplicationEntity(creditApplication, user);
         CreditApplication savedApplication = creditApplicationEntityService.save(creditApplication);
         return CreditApplicationMapper.INSTANCE.convertCreditApplicationToCreditApplicationResultDto(savedApplication);
@@ -42,16 +42,18 @@ public class CreditApplicationService {
         creditApplication.setUser(user);
         creditApplication.setApplicationDate(LocalDateTime.now());
         creditApplication.setCreditScore(creditScore);
+
         double creditAmount = creditAmountCalculator.getCreditLimitAmount(creditApplication);
         CreditApplicationResult creditApplicationResult = creditAmount > 0 ? CreditApplicationResult.APPROVED : CreditApplicationResult.REJECTED;
         creditApplication.setCreditApplicationResult(creditApplicationResult);
         creditApplication.setCreditLimitAmount(creditAmount);
     }
 
-
     public List<CreditApplicationResultDto> findCreditApplicationByNationalIdNumber(String nationalIdNumber) {
-        Optional<List<CreditApplication>> creditApplicationByNationalIdNumber = creditApplicationEntityService.findCreditApplicationByNationalIdNumber(nationalIdNumber);
-        List<CreditApplication> creditApplicationList = validationService.validateCreditApplicationList(creditApplicationByNationalIdNumber);
+        Optional<List<CreditApplication>> creditApplicationByNationalIdNumber=
+                creditApplicationEntityService.findCreditApplicationByNationalIdNumber(nationalIdNumber);
+        List<CreditApplication> creditApplicationList =
+                validationService.validateCreditApplicationList(creditApplicationByNationalIdNumber);
         return CreditApplicationMapper.INSTANCE.convertAllCreditApplicationToCreditApplicationResultDto(creditApplicationList);
     }
 }

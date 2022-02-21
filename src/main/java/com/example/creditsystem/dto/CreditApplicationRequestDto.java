@@ -5,6 +5,9 @@ import java.io.Serializable;
 
 @Data
 public class CreditApplicationRequestDto implements Serializable {
-    private final String userNationalIdNumber;
+    private final String nationalIdNumber;
+    private final String name;
+    private final String surname;
+    private final String phone;
     private final Double monthlyIncome;
 }

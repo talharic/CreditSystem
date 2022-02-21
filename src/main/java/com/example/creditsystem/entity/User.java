@@ -2,13 +2,11 @@ package com.example.creditsystem.entity;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -36,8 +34,8 @@ public class User implements BaseEntity {
     @NotBlank(message = "Phone is mandatory")
     private String phone;
 
-    @OneToMany(mappedBy = "user")
-    private List<CreditApplication> creditApplications;
+    @OneToOne(cascade = CascadeType.ALL)
+    private CreditApplication creditApplication;
 
     @Override
     public boolean equals(Object o) {

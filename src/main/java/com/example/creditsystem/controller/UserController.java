@@ -15,6 +15,7 @@ import java.util.List;
 @CrossOrigin
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
     @GetMapping("/{nationalIdNumber}")
@@ -27,11 +28,6 @@ public class UserController {
     public ResponseEntity<Object> getAllUsers() {
         List<UserResponseDto> all = userService.findAll();
         return ResponseEntity.ok(all);
-    }
-
-    @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok(userService.create(userRequestDto));
     }
 
     @PutMapping("/{nationalIdNumber}")

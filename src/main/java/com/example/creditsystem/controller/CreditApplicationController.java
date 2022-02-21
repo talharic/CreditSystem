@@ -17,11 +17,11 @@ public class CreditApplicationController {
 
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody CreditApplicationRequestDto creditApplicationRequestDto) {
-        return ResponseEntity.ok(creditApplicationService.create(creditApplicationRequestDto));
+        return ResponseEntity.ok(creditApplicationService.saveCreditApplication(creditApplicationRequestDto));
     }
 
     @GetMapping("/")
-    public ResponseEntity<Object> getByNationalIdNumber(@RequestParam("id") String nationalIdNumber) {
+    public ResponseEntity<Object> getByByNationalIdNumberAndBirthDate(@RequestParam("id") String nationalIdNumber) {
         return ResponseEntity.ok(creditApplicationService.findCreditApplicationByNationalIdNumber(nationalIdNumber));
     }
 
