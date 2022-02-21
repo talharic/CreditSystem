@@ -21,7 +21,7 @@ public class CreditApplicationController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Object> getByByNationalIdNumberAndBirthDate(@RequestParam("id") String nationalIdNumber) {
+    public ResponseEntity<Object> getByByNationalIdNumber(@RequestParam("id") String nationalIdNumber) {
         return ResponseEntity.ok(creditApplicationService.findCreditApplicationByNationalIdNumber(nationalIdNumber));
     }
 

@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CreditApplicationRepository extends JpaRepository<CreditApplication, Long> {
-
     Optional<CreditApplication> findCreditApplicationByUserNationalIdNumber(String nationalIdNumber);
-
 }

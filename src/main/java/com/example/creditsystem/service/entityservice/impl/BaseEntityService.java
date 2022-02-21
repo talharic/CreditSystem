@@ -1,4 +1,4 @@
-package com.example.creditsystem.service.entityservice;
+package com.example.creditsystem.service.entityservice.impl;
 
 import com.example.creditsystem.entity.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,10 @@ public abstract class BaseEntityService<E extends BaseEntity, R extends JpaRepos
 
     public void delete(E e) {
         repository.delete(e);
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 
     public R getRepository() {
