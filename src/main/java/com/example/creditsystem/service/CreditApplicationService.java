@@ -29,8 +29,7 @@ public class CreditApplicationService {
 
     @Transactional
     public CreditApplicationResultDto saveCreditApplication(CreditApplicationRequestDto creditApplicationRequestDto) {
-        CreditApplication creditApplication = CreditApplicationMapper
-                .INSTANCE.convertCreditApplicationRequestDtoToCreditApplication(creditApplicationRequestDto);
+        CreditApplication creditApplication = CreditApplicationMapper.INSTANCE.convertCreditApplicationRequestDtoToCreditApplication(creditApplicationRequestDto);
         User user = userService.saveUserToEntity(creditApplication.getUser());
         fillCreditApplicationEntity(creditApplication, user);
         CreditApplication savedApplication = creditApplicationEntityService.save(creditApplication);
@@ -42,18 +41,16 @@ public class CreditApplicationService {
         creditApplication.setUser(user);
         creditApplication.setApplicationDate(LocalDateTime.now());
         creditApplication.setCreditScore(creditScore);
-
         double creditAmount = creditAmountCalculator.getCreditLimitAmount(creditApplication);
         CreditApplicationResult creditApplicationResult = creditAmount > 0 ? CreditApplicationResult.APPROVED : CreditApplicationResult.REJECTED;
         creditApplication.setCreditApplicationResult(creditApplicationResult);
         creditApplication.setCreditLimitAmount(creditAmount);
     }
 
-    public List<CreditApplicationResultDto> findCreditApplicationByNationalIdNumber(String nationalIdNumber) {
-        Optional<List<CreditApplication>> creditApplicationByNationalIdNumber=
-                creditApplicationEntityService.findCreditApplicationByNationalIdNumber(nationalIdNumber);
-        List<CreditApplication> creditApplicationList =
-                validationService.validateCreditApplicationList(creditApplicationByNationalIdNumber);
-        return CreditApplicationMapper.INSTANCE.convertAllCreditApplicationToCreditApplicationResultDto(creditApplicationList);
+
+    public CreditApplicationResultDto findCreditApplicationByNationalIdNumber(String nationalIdNumber) {
+        Optional<CreditApplication> creditApplicationByNationalIdNumber = creditApplicationEntityService.findCreditApplicationByNationalIdNumber(nationalIdNumber);
+        CreditApplication creditApplication = validationService.validateCreditApplication(creditApplicationByNationalIdNumber);
+        return CreditApplicationMapper.INSTANCE.convertCreditApplicationToCreditApplicationResultDto(creditApplication);
     }
 }
