@@ -1,8 +1,5 @@
 package com.example.creditsystem.rule;
 
-import com.example.creditsystem.entity.CreditApplication;
-
 public interface CreditCalculationRule {
-    double calculate(CreditApplication creditApplication);
-
+    double calculate(long creditScore, double monthlyIncome);
 }
