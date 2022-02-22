@@ -32,8 +32,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{nationalIdNumber}")
-    public void deleteByNationalIdNumber(@PathVariable String nationalIdNumber) {
+    public String deleteByNationalIdNumber(@PathVariable String nationalIdNumber) {
         userService.deleteByNationalIdNumber(nationalIdNumber);
+        return "User deleted National Id Number is : " + nationalIdNumber;
     }
 
 }

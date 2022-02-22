@@ -38,7 +38,7 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
         saveCreditApplicationUser(creditApplication);
         fillCreditApplicationEntity(creditApplication);
         CreditApplication savedApplication = saveApplication(creditApplication);
-        notifyCustomer(savedApplication);
+        notifyUser(savedApplication);
         return CreditApplicationMapper.INSTANCE.convertCreditApplicationToCreditApplicationResultDto(savedApplication);
     }
 
@@ -61,7 +61,7 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
         log.info("Credit Limit Amount: " + creditAmount);
     }
 
-    private void notifyCustomer(CreditApplication creditApplication) {
+    private void notifyUser(CreditApplication creditApplication) {
         User user = creditApplication.getUser();
         StringBuilder notifyMessage = new StringBuilder();
         notifyMessage.append("Dear ").append(user.getName()).append(" ").append(user.getSurname()).append(", ");
@@ -73,7 +73,7 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
             notifyMessage.append(". ");
         }
         notifyMessage.append("Thank you for your application.");
-        userNotificationService.notifyCustomer(creditApplication.getUser(), notifyMessage.toString());
+        userNotificationService.notifyUser(creditApplication.getUser(), notifyMessage.toString());
     }
 
     private CreditApplication saveApplication(CreditApplication creditApplication) {
