@@ -3,6 +3,8 @@ package com.example.creditsystem.service.impl;
 import com.example.creditsystem.entity.CreditApplication;
 import com.example.creditsystem.entity.User;
 import com.example.creditsystem.exception.CreditApplicationNotFoundException;
+import com.example.creditsystem.exception.NationalIdNumberNotValidException;
+import com.example.creditsystem.exception.UserAlreadyExistException;
 import com.example.creditsystem.exception.UserNotFoundException;
 import com.example.creditsystem.service.ValidationService;
 import org.springframework.stereotype.Service;
@@ -35,5 +37,21 @@ public class ValidationServiceImpl implements ValidationService {
         Pattern pattern = Pattern.compile("^\\d{10}$");
         Matcher matcher = pattern.matcher(phoneNumber);
         return matcher.matches();
+    }
+
+    @Override
+    public Boolean validateNationalIdNumber(String nationalIdNumber){
+        Pattern pattern = Pattern.compile("^\\d{11}$");
+        Matcher matcher = pattern.matcher(nationalIdNumber);
+        if (!matcher.matches())
+            throw new NationalIdNumberNotValidException("National Id is not valid");
+        return matcher.matches();
+    }
+
+    @Override
+    public Boolean validateUserNotExist(Optional<User> byNationalIdNumber) {
+        if (byNationalIdNumber.isPresent())
+            throw new UserAlreadyExistException("User has already exist.");
+        return Boolean.TRUE;
     }
 }
