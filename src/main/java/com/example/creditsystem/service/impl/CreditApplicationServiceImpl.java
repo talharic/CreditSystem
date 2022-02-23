@@ -1,10 +1,12 @@
 package com.example.creditsystem.service.impl;
 
+import com.example.creditsystem.component.notifyMessage.NotifyMessage;
 import com.example.creditsystem.dto.CreditApplicationRequestDto;
 import com.example.creditsystem.dto.CreditApplicationResultDto;
 import com.example.creditsystem.entity.CreditApplication;
 import com.example.creditsystem.entity.User;
 import com.example.creditsystem.enums.CreditApplicationResult;
+import com.example.creditsystem.factory.NotifyMessageFactory;
 import com.example.creditsystem.mapper.CreditApplicationMapper;
 import com.example.creditsystem.rule.CreditAmountCalculator;
 import com.example.creditsystem.service.CreditApplicationService;
@@ -64,17 +66,9 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
 
     private void notifyUser(CreditApplication creditApplication) {
         User user = creditApplication.getUser();
-        StringBuilder notifyMessage = new StringBuilder();
-        notifyMessage.append("Dear ").append(user.getName()).append(" ").append(user.getSurname()).append(", ");
-        notifyMessage.append("your credit application has been ");
-        notifyMessage.append(creditApplication.getCreditApplicationResult()).append(". ");
-        if (CreditApplicationResult.APPROVED.equals(creditApplication.getCreditApplicationResult())) {
-            notifyMessage.append("Your credit limit: ");
-            notifyMessage.append(creditApplication.getCreditLimitAmount());
-            notifyMessage.append(". ");
-        }
-        notifyMessage.append("Thank you for your application.");
-        userNotificationService.notifyUser(creditApplication.getUser(), notifyMessage.toString());
+        NotifyMessage notifyMessage = NotifyMessageFactory.getNotifyMessage(creditApplication.getCreditApplicationResult().getResult());
+        String generatedMessage = notifyMessage.getMessage(user.getName() + " " + user.getSurname(), creditApplication.getCreditLimitAmount());
+        userNotificationService.notifyUser(creditApplication.getUser(), generatedMessage);
     }
 
     private CreditApplication saveCreditApplication(CreditApplication creditApplication) {
