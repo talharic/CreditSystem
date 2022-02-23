@@ -18,10 +18,10 @@ public class CreditAmountCalculator {
         this.calculationRules.add(new RuleThree());
     }
 
-    public double getCreditLimitAmount(CreditApplication creditApplication) {
+    public double getCreditLimitAmount(Long creditScore, Double monthlyIncome) {
         double creditAmount = 0.0;
-        long creditScore = creditApplication.getCreditScore() == null ? 0 : creditApplication.getCreditScore();
-        double monthlyIncome = creditApplication.getMonthlyIncome() == null ? 0 : creditApplication.getMonthlyIncome();
+        if (creditScore == null || monthlyIncome == null)
+            return creditAmount;
         for (CreditCalculationRule calculationRule : calculationRules) {
             creditAmount += calculationRule.calculate(creditScore, monthlyIncome);
         }
