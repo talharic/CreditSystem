@@ -1,7 +1,7 @@
 package com.example.creditsystem.service.impl;
 
-import com.example.creditsystem.dto.UserRequestDto;
 import com.example.creditsystem.dto.UserResponseDto;
+import com.example.creditsystem.dto.UserUpdateRequestDto;
 import com.example.creditsystem.entity.User;
 import com.example.creditsystem.exception.UserAlreadyExistException;
 import com.example.creditsystem.mapper.UserMapper;
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserResponseDto update(UserRequestDto userRequestDto, String nationalIdNumber) {
-        User userRequestEntity = UserMapper.INSTANCE.convertUserRequestDtoToUser(userRequestDto);
+    public UserResponseDto update(UserUpdateRequestDto userUpdateRequestDto, String nationalIdNumber) {
+        User userRequestEntity = UserMapper.INSTANCE.convertUserUpdateRequestDtoToUser(userUpdateRequestDto);
         User user = findUserByNationalIdNumber(nationalIdNumber);
         fillUserProperties(userRequestEntity, user);
         User updatedUser = userEntityService.save(user);
@@ -69,6 +69,5 @@ public class UserServiceImpl implements UserService {
         user.setName(userRequestEntity.getName());
         user.setSurname(userRequestEntity.getSurname());
         user.setPhone(userRequestEntity.getPhone());
-        user.setNationalIdNumber(userRequestEntity.getNationalIdNumber());
     }
 }

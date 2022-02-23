@@ -1,6 +1,6 @@
 package com.example.creditsystem.controller;
 
-import com.example.creditsystem.dto.UserRequestDto;
+import com.example.creditsystem.dto.UserUpdateRequestDto;
 import com.example.creditsystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,9 @@ public class UserController {
         return ResponseEntity.ok(userService.findAll());
     }
 
-
     @PutMapping("/{nationalIdNumber}")
-    public ResponseEntity<Object> update(@Valid @RequestBody UserRequestDto userRequestDto, @PathVariable String nationalIdNumber) {
-        return ResponseEntity.ok(userService.update(userRequestDto, nationalIdNumber));
+    public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto, @PathVariable String nationalIdNumber) {
+        return ResponseEntity.ok(userService.update(userUpdateRequestDto, nationalIdNumber));
     }
 
     @DeleteMapping("/{nationalIdNumber}")
