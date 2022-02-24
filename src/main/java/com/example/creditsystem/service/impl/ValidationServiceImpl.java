@@ -40,7 +40,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public Boolean validateNationalIdNumber(String nationalIdNumber){
+    public Boolean validateNationalIdNumber(String nationalIdNumber) {
         Pattern pattern = Pattern.compile("^\\d{11}$");
         Matcher matcher = pattern.matcher(nationalIdNumber);
         if (!matcher.matches())
@@ -49,8 +49,8 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public Boolean validateUserNotExist(Optional<User> byNationalIdNumber) {
-        if (byNationalIdNumber.isPresent())
+    public Boolean validateUserNotExist(Optional<User> optionalUser) {
+        if (optionalUser.isPresent())
             throw new UserAlreadyExistException("User has already exist.");
         return Boolean.TRUE;
     }
