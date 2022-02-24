@@ -19,13 +19,14 @@ class CreditScoreServiceTest {
 
     @Test
     void shouldCalculateCreditScoreZeroWithNullParams() {
-        assertEquals( 0L, creditScoreService.calculateCreditScore((double) 0L, null));
+        assertEquals(0L, creditScoreService.calculateCreditScore((double) 0L, null));
     }
 
     @Test
     void shouldCalculateCreditScoreWithZeroIncomeParam() {
-        assertEquals( 0L, creditScoreService.calculateCreditScore((double) 0L, "12585497585"));
+        assertEquals(0L, creditScoreService.calculateCreditScore((double) 0L, "12585497585"));
     }
+
     @Test
     void shouldCalculateCreditScore() {
         long l = creditScoreService.calculateCreditScore((double) 15000, "12585497585");

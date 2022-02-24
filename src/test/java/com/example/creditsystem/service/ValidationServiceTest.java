@@ -35,7 +35,7 @@ class ValidationServiceTest {
     @Test
     void shouldNotValidateUser() {
         Optional<User> optionalUser = Optional.empty();
-        assertThrows(UserNotFoundException.class,()-> validationService.validateUser(optionalUser));
+        assertThrows(UserNotFoundException.class, () -> validationService.validateUser(optionalUser));
     }
 
     @Test
@@ -48,22 +48,20 @@ class ValidationServiceTest {
     @Test
     void shouldNotValidateCreditApplication() {
         Optional<CreditApplication> creditApplication = Optional.empty();
-        assertThrows(CreditApplicationNotFoundException.class,()-> validationService.validateCreditApplication(creditApplication));
+        assertThrows(CreditApplicationNotFoundException.class, () -> validationService.validateCreditApplication(creditApplication));
     }
 
     @Test
     void shouldValidatePhoneNumber() {
-        String phone = "5394293797";
+        String phone = "5395893797";
         assertEquals(Boolean.TRUE, validationService.validatePhoneNumber(phone));
-
     }
 
     @Test
     void shouldNotValidatePhoneNumber() {
         String phone = "abx4-?797";
-        assertEquals(Boolean.FALSE,validationService.validatePhoneNumber(phone));
+        assertEquals(Boolean.FALSE, validationService.validatePhoneNumber(phone));
     }
-
 
     @Test
     void shouldValidateNationalIdNumber() {
@@ -75,9 +73,8 @@ class ValidationServiceTest {
     @Test
     void shouldNotValidateNationalIdNumber() {
         String nationalIdNumber = "abx4-?572";
-        assertThrows(NationalIdNumberNotValidException.class,()-> validationService.validateNationalIdNumber(nationalIdNumber));
+        assertThrows(NationalIdNumberNotValidException.class, () -> validationService.validateNationalIdNumber(nationalIdNumber));
     }
-
 
     @Test
     void shouldValidateUserNotExist() {
@@ -88,7 +85,7 @@ class ValidationServiceTest {
     @Test
     void shouldNotValidateUserNotExist() {
         Optional<User> optionalUser = Optional.of(new User());
-        assertThrows(UserAlreadyExistException.class,()-> validationService.validateUserNotExist(optionalUser));
+        assertThrows(UserAlreadyExistException.class, () -> validationService.validateUserNotExist(optionalUser));
     }
 
 }
