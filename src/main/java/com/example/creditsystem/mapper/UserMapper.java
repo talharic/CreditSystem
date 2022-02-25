@@ -1,6 +1,5 @@
 package com.example.creditsystem.mapper;
 
-import com.example.creditsystem.dto.UserRequestDto;
 import com.example.creditsystem.dto.UserResponseDto;
 import com.example.creditsystem.dto.UserUpdateRequestDto;
 import com.example.creditsystem.entity.User;
@@ -15,11 +14,7 @@ import java.util.List;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    UserRequestDto convertUserRequestDtoToUser(User user);
-
     UserUpdateRequestDto convertUserToUserToUserUpdateRequestDto(User user);
-
-    User convertUserRequestDtoToUser(UserRequestDto UserRequestDto);
 
     User convertUserUpdateRequestDtoToUser(UserUpdateRequestDto UserUpdateRequestDto);
 
@@ -28,10 +23,6 @@ public interface UserMapper {
 
     @Mapping(source = "monthlyIncome", target = "creditApplication.monthlyIncome")
     User convertUserResponseDtoToUser(UserResponseDto UserResponseDto);
-
-    List<UserRequestDto> convertAllUserRequestDtoToUser(List<User> userList);
-
-    List<User> convertAllUserToUserRequestDto(List<UserRequestDto> userRequestDtoList);
 
     @Mapping(source = "monthlyIncome", target = "creditApplication.monthlyIncome")
     List<User> convertAllUserResponseDtoToUser(List<UserResponseDto> userList);
