@@ -9,10 +9,7 @@ import com.example.creditsystem.enums.CreditApplicationResult;
 import com.example.creditsystem.factory.NotifyMessageFactory;
 import com.example.creditsystem.mapper.CreditApplicationMapper;
 import com.example.creditsystem.rule.CreditAmountCalculator;
-import com.example.creditsystem.service.CreditApplicationService;
-import com.example.creditsystem.service.CreditScoreService;
-import com.example.creditsystem.service.UserNotificationService;
-import com.example.creditsystem.service.ValidationService;
+import com.example.creditsystem.service.*;
 import com.example.creditsystem.service.entityservice.CreditApplicationEntityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class CreditApplicationServiceImpl implements CreditApplicationService {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final CreditApplicationEntityService creditApplicationEntityService;
     private final ValidationService validationService;
     private final CreditAmountCalculator creditAmountCalculator;
@@ -36,13 +33,14 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
     @Transactional
     @Override
     public CreditApplicationResultDto saveCreditApplication(CreditApplicationRequestDto creditApplicationRequestDto) {
+
         CreditApplication creditApplication = CreditApplicationMapper.INSTANCE.convertCreditApplicationRequestDtoToCreditApplication(creditApplicationRequestDto);
-        saveCreditApplicationUser(creditApplication);
+        userService.saveUserToEntity(creditApplication.getUser());
         long creditScore = creditScoreService.calculateCreditScore(creditApplication.getMonthlyIncome(), creditApplication.getUser().getNationalIdNumber());
         double creditAmount = creditAmountCalculator.getCreditLimitAmount(creditScore, creditApplication.getMonthlyIncome());
         CreditApplicationResult creditApplicationResult = creditAmount > 0 ? CreditApplicationResult.APPROVED : CreditApplicationResult.REJECTED;
         fillCreditApplicationEntity(creditApplication, creditScore, creditAmount, creditApplicationResult);
-        CreditApplication savedApplication = saveCreditApplication(creditApplication);
+        CreditApplication savedApplication = creditApplicationEntityService.save(creditApplication);
         notifyUser(savedApplication);
         return CreditApplicationMapper.INSTANCE.convertCreditApplicationToCreditApplicationResultDto(savedApplication);
     }
@@ -69,14 +67,6 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
         NotifyMessage notifyMessage = NotifyMessageFactory.getNotifyMessage(creditApplication.getCreditApplicationResult().getResult());
         String generatedMessage = notifyMessage.getMessage(user.getName() + " " + user.getSurname(), creditApplication.getCreditLimitAmount());
         userNotificationService.notifyUser(creditApplication.getUser(), generatedMessage);
-    }
-
-    private CreditApplication saveCreditApplication(CreditApplication creditApplication) {
-        return creditApplicationEntityService.save(creditApplication);
-    }
-
-    private void saveCreditApplicationUser(CreditApplication creditApplication) {
-        userService.saveUserToEntity(creditApplication.getUser());
     }
 
 }

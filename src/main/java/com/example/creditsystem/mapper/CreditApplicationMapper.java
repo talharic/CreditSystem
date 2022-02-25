@@ -13,14 +13,13 @@ import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CreditApplicationMapper {
-
     CreditApplicationMapper INSTANCE = Mappers.getMapper(CreditApplicationMapper.class);
 
     @Mapping(target = "nationalIdNumber", source = "user.nationalIdNumber")
     @Mapping(target = "name", source = "user.name")
     @Mapping(target = "surname", source = "user.surname")
     @Mapping(target = "phone", source = "user.phone")
-    CreditApplicationRequestDto convertCreditApplicationRequestDtoToCreditApplication(CreditApplication creditApplication);
+    CreditApplicationRequestDto convertCreditApplicationToCreditApplicationRequestDto(CreditApplication creditApplication);
 
     @Mapping(source = "nationalIdNumber", target = "user.nationalIdNumber")
     @Mapping(source = "name", target = "user.name")
